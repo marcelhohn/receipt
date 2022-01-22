@@ -83,3 +83,15 @@ class TaxRateCalculation(TestCase):
         normal_item.is_basic_tax_free = Mock(return_value=False)
 
         self.assertEqual(normal_item.calculate_tax_rate(), Decimal("0.1"))
+
+    def test_tax_rate_for_imported_essential_item(self):
+        imported_essential_item = Item("", 1, Decimal("0.00"), True)
+        imported_essential_item.is_basic_tax_free = Mock(return_value=True)
+
+        self.assertEqual(imported_essential_item.calculate_tax_rate(), Decimal("0.05"))
+
+    def test_tax_rate_for_imported_normal_item(self):
+        imported_normal_item = Item("", 1, Decimal("0.00"), True)
+        imported_normal_item.is_basic_tax_free = Mock(return_value=False)
+
+        self.assertEqual(imported_normal_item.calculate_tax_rate(), Decimal("0.15"))
