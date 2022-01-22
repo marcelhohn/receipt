@@ -10,6 +10,9 @@ class Item:
     shelf_price: Decimal
     is_imported: bool
 
+    def calculate_price_w_sales_tax(self) -> Decimal:
+        return self.shelf_price + self.calculate_sales_tax()
+
     def calculate_sales_tax(self) -> Decimal:
         tax_rate = self.calculate_tax_rate()
         sales_tax_raw = tax_rate * self.shelf_price

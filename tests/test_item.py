@@ -115,3 +115,63 @@ class SalesTaxCalculation(TestCase):
 
         item.calculate_sales_tax()
         patch_round_sales_tax.assert_called_once_with(Decimal("1.8735"))
+
+
+class PriceWithSalesTaxCalculation(TestCase):
+    def test_unimported_essential_items(self):
+        self.assertEqual(
+            Item("book", 1, Decimal("12.49"), False).calculate_price_w_sales_tax(),
+            Decimal("12.49"),
+        )
+        self.assertEqual(
+            Item(
+                "chocolate bar", 1, Decimal("0.85"), False
+            ).calculate_price_w_sales_tax(),
+            Decimal("0.85"),
+        )
+        self.assertEqual(
+            Item(
+                "packet of headache pills", 1, Decimal("9.75"), False
+            ).calculate_price_w_sales_tax(),
+            Decimal("9.75"),
+        )
+
+    def test_unimported_normal_items(self):
+        self.assertEqual(
+            Item("music CD", 1, Decimal("14.99"), False).calculate_price_w_sales_tax(),
+            Decimal("16.49"),
+        )
+        self.assertEqual(
+            Item(
+                "bottle of perfume", 1, Decimal("18.99"), False
+            ).calculate_price_w_sales_tax(),
+            Decimal("20.89"),
+        )
+
+    def test_imported_essential_items(self):
+        self.assertEqual(
+            Item(
+                "box of chocolates", 1, Decimal("10.00"), True
+            ).calculate_price_w_sales_tax(),
+            Decimal("10.50"),
+        )
+        self.assertEqual(
+            Item(
+                "box of chocolates", 1, Decimal("11.25"), True
+            ).calculate_price_w_sales_tax(),
+            Decimal("11.85"),
+        )
+
+    def test_imported_normal_items(self):
+        self.assertEqual(
+            Item(
+                "bottle of perfume", 1, Decimal("47.50"), True
+            ).calculate_price_w_sales_tax(),
+            Decimal("54.65"),
+        )
+        self.assertEqual(
+            Item(
+                "bottle of perfume", 1, Decimal("27.99"), True
+            ).calculate_price_w_sales_tax(),
+            Decimal("32.19"),
+        )
