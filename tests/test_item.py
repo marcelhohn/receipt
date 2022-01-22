@@ -16,10 +16,10 @@ class ItemCreation(TestCase):
 
         test_item = Item(test_name, test_quantity, test_shelf_price, test_is_imported)
 
-        self.assertEqual(test_item.name, test_name)
-        self.assertEqual(test_item.quantity, test_quantity)
-        self.assertEqual(test_item.shelf_price, test_shelf_price)
-        self.assertEqual(test_item.is_imported, test_is_imported)
+        self.assertEqual(test_item._name, test_name)
+        self.assertEqual(test_item._quantity, test_quantity)
+        self.assertEqual(test_item._shelf_price, test_shelf_price)
+        self.assertEqual(test_item._is_imported, test_is_imported)
 
     @unittest.skip(
         "unfreeze dataclass since frozen dataclass does not allow to mock mehtods, "
