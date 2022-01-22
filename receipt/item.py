@@ -32,8 +32,11 @@ class Item:
 
     def is_basic_tax_free(self) -> bool:
         TAX_FREE_GOODS = ["book", "chocolate", "headache pill"]
-        
+
         return any(
             tax_free_good in self._name
             for tax_free_good in TAX_FREE_GOODS
         )
+
+    def print(self) -> str:
+        return ""
