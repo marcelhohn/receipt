@@ -18,4 +18,6 @@ class Item:
         return Decimal("0.0")
 
     def is_basic_tax_free(self) -> bool:
-        return False
+        return any(
+            tax_free_good in self.name for tax_free_good in ["book", "chocolate", "headache pill"]
+        )
