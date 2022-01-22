@@ -6,4 +6,4 @@ class Item:
    name: str
    quantity: int
    shelf_price: Decimal
-   is_imported: bool 
+   is_imported: bool
