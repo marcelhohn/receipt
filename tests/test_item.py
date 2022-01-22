@@ -1,6 +1,8 @@
 from dataclasses import FrozenInstanceError
 from decimal import Decimal
 from unittest import TestCase
+import unittest
+from unittest.mock import Mock
 
 from receipt.item import Item
 
@@ -19,6 +21,10 @@ class ItemCreation(TestCase):
         self.assertEqual(test_item.shelf_price, test_shelf_price)
         self.assertEqual(test_item.is_imported, test_is_imported)
 
+    @unittest.skip(
+        "unfreeze dataclass since frozen dataclass does not allow to mock mehtods, "
+        "which we need for testing other mehtods of the Item class"
+    )
     def test_item_does_not_allow_mutation_after_creation(self):
         test_name = "book"
         test_quantity = 1
@@ -63,3 +69,17 @@ class BasicTaxFreeCheck(TestCase):
     def bottle_of_prefume_is_not_basic_tax_free(self):
         bottle_of_perfume = Item("bottle of perfume", 1, Decimal("0.00"), False)
         self.assertFalse(bottle_of_perfume.is_basic_tax_free())
+
+
+class TaxRateCalculation(TestCase):
+    def test_tax_rate_for_essential_item(self):
+        essential_item = Item("", 1, Decimal("0.00"), False)
+        essential_item.is_basic_tax_free = Mock(return_value=True)
+
+        self.assertEqual(essential_item.calculate_tax_rate(), Decimal("0"))
+
+    def test_tax_rate_for_normal_item(self):
+        normal_item = Item("", 1, Decimal("0.00"), False)
+        normal_item.is_basic_tax_free = Mock(return_value=False)
+
+        self.assertEqual(normal_item.calculate_tax_rate(), Decimal("0.1"))

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 
 
-@dataclass(frozen=True)
+@dataclass()
 class Item:
     name: str
     quantity: int
@@ -19,5 +19,6 @@ class Item:
 
     def is_basic_tax_free(self) -> bool:
         return any(
-            tax_free_good in self.name for tax_free_good in ["book", "chocolate", "headache pill"]
+            tax_free_good in self.name
+            for tax_free_good in ["book", "chocolate", "headache pill"]
         )
