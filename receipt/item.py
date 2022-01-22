@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from decimal import Decimal
-import receipt
 
 import receipt.tax_utils as tax_utils
 

@@ -176,6 +176,7 @@ class PriceWithSalesTaxCalculation(TestCase):
             Decimal("32.19"),
         )
 
+
 class ReceiptTextGeneration(TestCase):
     def test_generate_receipt_text_works_for_local_good(self):
         item = Item("bottle of perfume", 1, Decimal("0.00"), False)
@@ -187,4 +188,6 @@ class ReceiptTextGeneration(TestCase):
         item = Item("box of chocolates", 1, Decimal("0.00"), True)
         item.calculate_price_w_sales_tax = Mock(return_value=Decimal("0.99"))
 
-        self.assertEqual(item.generate_receipt_text(), "1 imported box of chocolates: 0.99")
+        self.assertEqual(
+            item.generate_receipt_text(), "1 imported box of chocolates: 0.99"
+        )
