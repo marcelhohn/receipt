@@ -1,20 +1,35 @@
 from decimal import Decimal
-from typing import Tuple
+from pathlib import Path
 import re
+from typing import List, Tuple, Union
 
-from receipt.item import Item
+class InputParser:
+    @classmethod
+    def parse_item_attributes_from_file(
+        cls, path_to_input_file: Union[Path, str]
+    ) -> List[Tuple[str, int, Decimal, bool]]:
+        items_attributes = []
 
+        with open(path_to_input_file, "r") as f:
+            for line in f.readlines():
+                (
+                    quantity,
+                    description,
+                    shelf_price,
+                ) = cls.parse_item_info_from_input_line(line)
+                name, is_imported = cls.parse_name_and_origin_from_description(
+                    description
+                )
+                items_attributes.append((name, quantity, shelf_price, is_imported))
 
-class ShoppingBasket:
-    def __init__(self) -> None:
-        self._items = []
+        return items_attributes
 
     @staticmethod
     def parse_item_info_from_input_line(input_line: str) -> Tuple[int, str, Decimal]:
         quantity_and_description, shelf_price_text = input_line.split(" at ")
-        
+
         shelf_price = Decimal(shelf_price_text)
-        
+
         PATTERN_TEXT = r"(?P<quantity>\d+) (?P<description>[\w\s]+)"
         pattern = re.compile(PATTERN_TEXT)
         match = pattern.match(quantity_and_description)
@@ -30,6 +45,3 @@ class ShoppingBasket:
             return name, True
         else:
             return description, False
-
-    def add_item(self, item: Item) -> None:
-        return
