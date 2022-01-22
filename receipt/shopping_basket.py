@@ -23,8 +23,13 @@ class ShoppingBasket:
 
         return quantity, description, shelf_price
 
-    def check_if_item_imported(self, description) -> bool:
-        return False
+    @staticmethod
+    def parse_name_and_origin_from_description(description) -> Tuple[str, bool]:
+        if "imported" in description:
+            name = " ".join(description.replace("imported", "").split())
+            return name, True
+        else:
+            return description, False
 
     def add_item(self, item: Item) -> None:
         return

@@ -56,3 +56,38 @@ class ParseItemInfoFromInputLine(TestCase):
             ShoppingBasket.parse_item_info_from_input_line("1 book at 999.99")[2],
             Decimal("999.99"),
         )
+
+class ParseNameAndOriginFromDescription(TestCase):
+    def test_gets_correct_name_for_local_product(self):
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("box of chocolate")[0],
+            "box of chocolate"
+        )
+
+    def test_gets_correct_name_for_imported_product(self):
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("imported box of chocolate")[0],
+            "box of chocolate"
+        )
+
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("box of imported chocolate")[0],
+            "box of chocolate"
+        )
+
+    def test_gets_correct_origin_for_local_product(self):
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("box of chocolate")[1],
+            False
+        )
+
+    def test_gets_correct_origin_for_imported_product(self):
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("imported box of chocolate")[1],
+            True
+        )
+
+        self.assertEqual(
+            ShoppingBasket.parse_name_and_origin_from_description("box of imported chocolate")[1],
+            True
+        )
