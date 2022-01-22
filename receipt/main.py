@@ -11,7 +11,7 @@ def main():
     )
     parser.add_argument("input", help="Path to the input file")
     args = parser.parse_args()
-    
+
     print_receipt(args.input)
 
 

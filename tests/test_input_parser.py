@@ -58,46 +58,56 @@ class ParseItemInfoFromInputLine(TestCase):
             Decimal("999.99"),
         )
 
+
 class ParseNameAndOriginFromDescription(TestCase):
     def test_gets_correct_name_for_local_product(self):
         self.assertEqual(
             InputParser.parse_name_and_origin_from_description("box of chocolate")[0],
-            "box of chocolate"
+            "box of chocolate",
         )
 
     def test_gets_correct_name_for_imported_product(self):
         self.assertEqual(
-            InputParser.parse_name_and_origin_from_description("imported box of chocolate")[0],
-            "box of chocolate"
+            InputParser.parse_name_and_origin_from_description(
+                "imported box of chocolate"
+            )[0],
+            "box of chocolate",
         )
 
         self.assertEqual(
-            InputParser.parse_name_and_origin_from_description("box of imported chocolate")[0],
-            "box of chocolate"
+            InputParser.parse_name_and_origin_from_description(
+                "box of imported chocolate"
+            )[0],
+            "box of chocolate",
         )
 
     def test_gets_correct_origin_for_local_product(self):
         self.assertEqual(
             InputParser.parse_name_and_origin_from_description("box of chocolate")[1],
-            False
+            False,
         )
 
     def test_gets_correct_origin_for_imported_product(self):
         self.assertEqual(
-            InputParser.parse_name_and_origin_from_description("imported box of chocolate")[1],
-            True
+            InputParser.parse_name_and_origin_from_description(
+                "imported box of chocolate"
+            )[1],
+            True,
         )
 
         self.assertEqual(
-            InputParser.parse_name_and_origin_from_description("box of imported chocolate")[1],
-            True
+            InputParser.parse_name_and_origin_from_description(
+                "box of imported chocolate"
+            )[1],
+            True,
         )
+
 
 class ParseItemsFromFile(TestCase):
     def setUp(self) -> None:
         here = pathlib.Path(__file__).parent.resolve()
         self.input_path = here / "test_inputs/input_3.txt"
-    
+
     def test_creates_correct_list_of_items(self):
         output = InputParser.parse_item_attributes_from_file(self.input_path)
         expected = [
