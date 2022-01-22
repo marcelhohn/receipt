@@ -32,8 +32,8 @@ class Item:
 
     def is_basic_tax_free(self) -> bool:
         TAX_FREE_GOODS = ["book", "chocolate", "headache pill"]
-        
-        return any(
-            tax_free_good in self._name
-            for tax_free_good in TAX_FREE_GOODS
-        )
+
+        return any(tax_free_good in self._name for tax_free_good in TAX_FREE_GOODS)
+
+    def generate_receipt_text(self) -> str:
+        return f"{self._quantity} {'imported ' if self._is_imported else ''}{self._name}: {self.calculate_price_w_sales_tax()}"
