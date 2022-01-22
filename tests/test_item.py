@@ -2,7 +2,7 @@ from dataclasses import FrozenInstanceError
 from decimal import Decimal
 from unittest import TestCase
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from receipt.item import Item
 
@@ -95,3 +95,23 @@ class TaxRateCalculation(TestCase):
         imported_normal_item.is_basic_tax_free = Mock(return_value=False)
 
         self.assertEqual(imported_normal_item.calculate_tax_rate(), Decimal("0.15"))
+
+
+class SalesTaxCalculation(TestCase):
+    @patch("receipt.item.tax_utils.round_sales_tax")
+    def test_round_sales_tax_is_called_with_no_tax(self, patch_round_sales_tax):
+        item = Item("", 1, Decimal("12.49"), False)
+        item.calculate_tax_rate = Mock(return_value=Decimal("0"))
+
+        item.calculate_sales_tax()
+        patch_round_sales_tax.assert_called_once_with(Decimal("0"))
+
+    @patch("receipt.item.tax_utils.round_sales_tax")
+    def test_round_sales_tax_called_is_called_with_correct_raw_sales_tax(
+        self, patch_round_sales_tax
+    ):
+        item = Item("", 1, Decimal("12.49"), False)
+        item.calculate_tax_rate = Mock(return_value=Decimal("0.15"))
+
+        item.calculate_sales_tax()
+        patch_round_sales_tax.assert_called_once_with(Decimal("1.8735"))

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
+import receipt.tax_utils as tax_utils
 
 @dataclass()
 class Item:
@@ -10,8 +11,9 @@ class Item:
     is_imported: bool
 
     def calculate_sales_tax(self) -> Decimal:
-        self.calculate_tax_rate()
-        return Decimal("0.0")
+        tax_rate = self.calculate_tax_rate()
+        sales_tax_raw = tax_rate * self.shelf_price
+        return tax_utils.round_sales_tax(sales_tax_raw)
 
     def calculate_tax_rate(self) -> Decimal:
         BASIC_TAX_RATE = Decimal("0.1")
