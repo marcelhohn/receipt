@@ -51,7 +51,7 @@ class PrintReceipt(TestCase):
                 call("1 bottle of perfume: 20.89"),
                 call("1 packet of headache pills: 9.75"),
                 call("1 imported box of chocolates: 11.85"),
-                call("Total: 6.70"),
+                call("Sales Taxes: 6.70"),
                 call("Total: 74.68"),
             ]
         self.assertSequenceEqual(expected_calls, patch_print.call_args_list)
