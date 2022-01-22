@@ -10,15 +10,15 @@ Create a virtual environment:
 python -m venv env
 ```
 
-and activate it
+and activate it...
 
-powershell:
+... inside a powershell:
 
 ```console
 .\env\Scripts\Activate.ps1
 ```
 
-command prompt:
+... inside a command prompt:
 
 ```console
 .\env\Scripts\activate.bat
