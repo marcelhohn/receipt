@@ -73,7 +73,18 @@ Sales Taxes: 1.50
 Total: 29.83
 ```
 
+### Assumptions
+
 The application handles only one input file at once.
+The input file is expected to consist of multiple lines, one line for each item.
+Each line is expected to contain the following information in the following order:
+
+- An integer number indicating the quantity of that item
+- A description containing the name of the item and the word "imported" (anywhere in the description), if (and only if) the item is imported
+- The word "at"
+- A number with two decimals and a dot (".") as decimal separator indicating the shelf price for **all units** of that item (e.g. the line "2 books at 20.00" means that both books together have a shelf price of 20.00)
+
+Each of the above contents are separated with exactly one space character.
 
 ---
 
