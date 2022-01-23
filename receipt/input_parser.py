@@ -3,6 +3,7 @@ from pathlib import Path
 import re
 from typing import List, Tuple, Union
 
+
 class InputParser:
     @classmethod
     def parse_item_attributes_from_file(
