@@ -1,4 +1,4 @@
-from ensurepip import version
+from importlib.metadata import entry_points
 from setuptools import find_packages, setup
 
 setup(
@@ -10,4 +10,5 @@ setup(
     author_email="marcel.hohn@web.de",
     packages=find_packages(),
     extras_require={"dev": ["black"]},
+    entry_points={"console_scripts": ["receipt=receipt.main:main"]},
 )

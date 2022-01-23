@@ -6,13 +6,18 @@ from receipt.shopping_basket import ShoppingBasket
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="An application for generating receipt details of shopping baskets"
-    )
-    parser.add_argument("input", help="Path to the input file")
+    parser = create_parser()
     args = parser.parse_args()
 
     print_receipt(args.input)
+
+
+def create_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="An application for generating receipt details of shopping baskets. Prints the receipt on the terminal."
+    )
+    parser.add_argument("input", help="Path to the input file")
+    return parser
 
 
 def print_receipt(input_file: str):

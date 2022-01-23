@@ -1,8 +1,11 @@
+import argparse
+import subprocess
 import pathlib
 from unittest import TestCase
 from unittest.mock import call, patch
 
-from receipt.main import print_receipt
+
+from receipt.main import create_parser, main, print_receipt
 
 
 class PrintReceipt(TestCase):
@@ -54,3 +57,34 @@ class PrintReceipt(TestCase):
             call("Total: 74.68"),
         ]
         self.assertSequenceEqual(expected_calls, patch_print.call_args_list)
+
+
+class CLI(TestCase):
+    def test_cli_command(self):
+        # We need to run this as a subprocess to supress the output of the help message
+        completed_process = subprocess.run("receipt -h", stdout=subprocess.PIPE)
+
+        self.assertEqual(0, completed_process.returncode)
+
+
+class ParserCreation(TestCase):
+    def setUp(self) -> None:
+        self.parser = create_parser()
+
+    def test_parser_has_correct_input_field(self):
+        args = self.parser.parse_args(["test_input.txt"])
+        self.assertEqual(args.input, "test_input.txt")
+
+
+class Main(TestCase):
+    @patch(
+        "argparse.ArgumentParser.parse_args",
+        return_value=argparse.Namespace(input="test_input.txt"),
+    )
+    @patch("receipt.main.print_receipt")
+    def test_main_calls_print_receipt_with_input_argument(
+        self, patch_print_receipt, patch_parse_args
+    ):
+        main()
+
+        patch_print_receipt.assert_called_once_with("test_input.txt")
