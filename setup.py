@@ -1,4 +1,3 @@
-from importlib.metadata import entry_points
 from setuptools import find_packages, setup
 
 setup(
@@ -9,6 +8,7 @@ setup(
     author="Marcel Hohn",
     author_email="marcel.hohn@web.de",
     packages=find_packages(),
+    python_requires='>=3.7, <4',
     extras_require={"dev": ["black"]},
     entry_points={"console_scripts": ["receipt=receipt.main:main"]},
 )
